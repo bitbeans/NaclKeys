@@ -68,6 +68,7 @@
     <Compile Include="Helper\ArrayHelpers.cs" />
     <Compile Include="Helper\StringHelper.cs" />
     <Compile Include="KeyGenerator.cs" />
+    <Compile Include="Models\KeyType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

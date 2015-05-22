@@ -71,6 +71,7 @@
     <Compile Include="MiniLockExceptionTests.cs" />
     <Compile Include="MiniLockTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecognizeIdentityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

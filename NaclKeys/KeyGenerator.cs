@@ -6,6 +6,7 @@ using Blake2sCSharp;
 using CryptSharp.Utility;
 using NaclKeys.Exceptions;
 using NaclKeys.Helper;
+using NaclKeys.Models;
 using Sodium;
 using Sodium.Exceptions;
 
@@ -14,17 +15,71 @@ namespace NaclKeys
     public static class KeyGenerator
     {
         private const int PublicKeyBytes = 32;
+        private const byte CurveLockVersionPrefix = 0x0A;
+        private const byte BytejailVersionPrefix = 0x29;
 
         /// <summary>
         ///     Try to recognize the identity format.
         /// </summary>
         /// <param name="encodedPublicKey">A base58 encoded public identity.</param>
-        public static void TryRecognizeIdentityFormat(string encodedPublicKey)
+        /// <param name="validate">If true, the key will also be validated.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <returns>The KeyType.</returns>
+        public static KeyType TryRecognizeIdentityFormat(string encodedPublicKey, bool validate = true)
         {
+            var type = KeyType.Unknown;
+
             if (encodedPublicKey == null)
                 throw new ArgumentNullException("encodedPublicKey", "encodedPublicKey cannot be null");
 
-            throw new NotImplementedException("");
+            try
+            {
+                var raw = Base58CheckEncoding.DecodePlain(encodedPublicKey);
+
+                switch (raw.Length)
+                {
+                    case 33:
+                        // miniLock
+                        type = validate
+                            ? (DecodeMiniLockPublicKey(encodedPublicKey).Length == PublicKeyBytes
+                                ? KeyType.MiniLock
+                                : KeyType.Invalid)
+                            : KeyType.MiniLock;
+                        break;
+                    case 37:
+                        // curvelock or bytejail
+                        if (ArrayHelpers.SubArray(raw, 0, 1).SequenceEqual(new[] { CurveLockVersionPrefix }))
+                        {
+                            // CurveLock
+                            type = validate
+                                ? (DecodeCurveLockPublicKey(encodedPublicKey).Length == PublicKeyBytes
+                                    ? KeyType.CurveLock
+                                    : KeyType.Invalid)
+                                : KeyType.CurveLock;
+                        }
+                        else
+                        {
+                            if (ArrayHelpers.SubArray(raw, 0, 1).SequenceEqual(new[] { BytejailVersionPrefix }))
+                            {
+                                // bytejail
+                                type = validate
+                                    ? (DecodeBytejailPublicKey(encodedPublicKey).Length == PublicKeyBytes
+                                        ? KeyType.Bytejail
+                                        : KeyType.Invalid)
+                                    : KeyType.Bytejail;
+                            }
+                        }
+                        break;
+                    default:
+                        type = KeyType.Unknown;
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+                type = KeyType.Invalid;
+            }
+            return type;
         }
 
         #region MiniLock Implementation
@@ -151,8 +206,7 @@ namespace NaclKeys
                 throw new KeyOutOfRangeException("publicKey", (publicKey == null) ? 0 : publicKey.Length,
                     string.Format("key must be {0} bytes in length.", PublicKeyBytes));
 
-            var version = new byte[] {0x0A};
-            var final = ArrayHelpers.ConcatArrays(version, publicKey);
+            var final = ArrayHelpers.ConcatArrays(new[] { CurveLockVersionPrefix }, publicKey);
             return Base58CheckEncoding.Encode(final);
         }
 
@@ -172,7 +226,7 @@ namespace NaclKeys
             {
                 var raw = Base58CheckEncoding.Decode(encodedPublicKey);
                 var version = ArrayHelpers.SubArray(raw, 0, 1);
-                if (!version.SequenceEqual(new byte[] {0x0A}))
+                if (!version.SequenceEqual(new[] { CurveLockVersionPrefix }))
                     throw new FormatException("invalid version");
 
                 var publicKey = ArrayHelpers.SubArray(raw, 1);
@@ -222,8 +276,7 @@ namespace NaclKeys
                 throw new KeyOutOfRangeException("publicKey", (publicKey == null) ? 0 : publicKey.Length,
                     string.Format("key must be {0} bytes in length.", PublicKeyBytes));
 
-            var version = new byte[] {0x0A};
-            var final = ArrayHelpers.ConcatArrays(version, publicKey, CalculateBytejailChecksum(publicKey));
+            var final = ArrayHelpers.ConcatArrays(new[] { BytejailVersionPrefix }, publicKey, CalculateBytejailChecksum(publicKey));
             return Base58CheckEncoding.EncodePlain(final);
         }
 
@@ -243,7 +296,7 @@ namespace NaclKeys
             {
                 var raw = Base58CheckEncoding.DecodePlain(encodedPublicKey);
                 var version = ArrayHelpers.SubArray(raw, 0, 1);
-                if (!version.SequenceEqual(new byte[] {0x0A}))
+                if (!version.SequenceEqual(new[] { BytejailVersionPrefix }))
                     throw new FormatException("invalid version");
 
                 var publicKey = ArrayHelpers.SubArray(raw, 1, 32);
@@ -264,6 +317,7 @@ namespace NaclKeys
         ///     Calculate a checksum for a bytejail ID.
         /// </summary>
         /// <param name="publicKey">A 32 byte publicKey</param>
+        /// <exception cref="KeyOutOfRangeException"></exception>
         /// <returns>A 4-byte array.</returns>
         private static byte[] CalculateBytejailChecksum(byte[] publicKey)
         {

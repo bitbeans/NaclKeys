@@ -4,6 +4,7 @@ Small library to generate libsodium-net compatible KeyPair`s and encoded public 
 ## Supported Formats
 
 ### CurveLock Format
+Project: [CurveLock](https://github.com/adamcaudill/CurveLock)
 #### Methods
 ```csharp
 public static KeyPair GenerateCurveLockKeyPair(string email, string password)
@@ -24,6 +25,7 @@ var encodedPublicKey = KeyGenerator.EncodeCurveLockPublicKey(keyPair.PublicKey);
 > NMgsvm7ytEHdGEuj9QEaoW7uH2tMQe9Ji2h9viw7kzFkgApVkH
 
 ### miniLock Format
+Project: [miniLock](https://github.com/kaepora/miniLock)
 #### Methods
 ```csharp
 public static KeyPair GenerateMiniLockKeyPair(string email, string password)
@@ -44,6 +46,7 @@ var encodedPublicKey = KeyGenerator.EncodeMiniLockPublicKey(keyPair.PublicKey);
 > Cz5bEJLKdSib9kWxkmskExaaLdRg8tVA2qsFBnfdQwkMe
 
 ### bytejail Format
+Project: [bytejail](https://bytejail.com)
 #### Methods
 ```csharp
 public static KeyPair GenerateBytejailKeyPair(string userInputPartOne, string userInputPartTwo)
@@ -61,7 +64,14 @@ const string password = "magnetometers payee induce tangibly polonaises unrestri
 var keyPair = KeyGenerator.GenerateBytejailKeyPair(email, password);
 var encodedPublicKey = KeyGenerator.EncodeBytejailPublicKey(keyPair.PublicKey);
 ```
-> MYhv6q2iGDu1U2r4FVYzDh5HrbsWdhFdxVj5iGxXPBm4a3oyP1
+> 2PonPHk28TBvBu3iADjXZAH5gPh8fTpQ2mh4eMbkLhPnMrAywsq
+
+##Helper
+It`s also possible to recognize an identity format
+
+```csharp
+public static KeyType TryRecognizeIdentityFormat(string encodedPublicKey, bool validate = true)
+```
 
 ## More Examples
 see [Unit Tests](https://github.com/bitbeans/NaclKeys/tree/master/Tests)
