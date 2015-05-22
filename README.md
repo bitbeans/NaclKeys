@@ -22,6 +22,7 @@ var keyPair = KeyGenerator.GenerateCurveLockKeyPair(email, password);
 var encodedPublicKey = KeyGenerator.EncodeCurveLockPublicKey(keyPair.PublicKey);
 ```
 > NMgsvm7ytEHdGEuj9QEaoW7uH2tMQe9Ji2h9viw7kzFkgApVkH
+
 ### miniLock Format
 #### Methods
 ```csharp
@@ -41,6 +42,7 @@ var keyPair = KeyGenerator.GenerateMiniLockKeyPair(email, password);
 var encodedPublicKey = KeyGenerator.EncodeMiniLockPublicKey(keyPair.PublicKey);
 ```
 > Cz5bEJLKdSib9kWxkmskExaaLdRg8tVA2qsFBnfdQwkMe
+
 ### bytejail Format
 #### Methods
 ```csharp
