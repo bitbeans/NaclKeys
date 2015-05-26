@@ -64,7 +64,7 @@ const string password = "magnetometers payee induce tangibly polonaises unrestri
 var keyPair = KeyGenerator.GenerateBytejailKeyPair(email, password);
 var encodedPublicKey = KeyGenerator.EncodeBytejailPublicKey(keyPair.PublicKey);
 ```
-> 2PonPHk28TBvBu3iADjXZAH5gPh8fTpQ2mh4eMbkLhPnMrAywsq
+> 2PonPHk28TBvBu3iADjXZAH5gPh8fTpQ2mh4eMbkLhPnMoc5Vwq
 
 ##Helper
 It`s also possible to recognize an identity format

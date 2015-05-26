@@ -276,7 +276,7 @@ namespace NaclKeys
                 throw new KeyOutOfRangeException("publicKey", (publicKey == null) ? 0 : publicKey.Length,
                     string.Format("key must be {0} bytes in length.", PublicKeyBytes));
 
-            var final = ArrayHelpers.ConcatArrays(new[] { BytejailVersionPrefix }, publicKey, CalculateBytejailChecksum(publicKey));
+            var final = ArrayHelpers.ConcatArrays(new[] { BytejailVersionPrefix }, publicKey, CalculateBytejailChecksum(new[] { BytejailVersionPrefix }, publicKey));
             return Base58CheckEncoding.EncodePlain(final);
         }
 
@@ -300,7 +300,7 @@ namespace NaclKeys
                     throw new FormatException("invalid version");
 
                 var publicKey = ArrayHelpers.SubArray(raw, 1, 32);
-                var checksum = CalculateBytejailChecksum(publicKey);
+                var checksum = CalculateBytejailChecksum(new[] { BytejailVersionPrefix }, publicKey);
                 var givenChecksum = ArrayHelpers.SubArray(raw, 33);
                 if (!checksum.SequenceEqual(givenChecksum))
                     throw new CorruptIdentityException("the given identity seems to be an invalid bytejail ID");
@@ -316,16 +316,21 @@ namespace NaclKeys
         /// <summary>
         ///     Calculate a checksum for a bytejail ID.
         /// </summary>
-        /// <param name="publicKey">A 32 byte publicKey</param>
+        /// <param name="version">The version byte.</param>
+        /// <param name="publicKey">A 32 byte publicKey.</param>
         /// <exception cref="KeyOutOfRangeException"></exception>
         /// <returns>A 4-byte array.</returns>
-        private static byte[] CalculateBytejailChecksum(byte[] publicKey)
+        private static byte[] CalculateBytejailChecksum(byte[] version, byte[] publicKey)
         {
+            if (version == null || version.Length != 1)
+                throw new ArgumentOutOfRangeException("version", (version == null) ? 0 : version.Length,
+                    string.Format("version must be {0} byte in length.", 1));
+
             if (publicKey == null || publicKey.Length != PublicKeyBytes)
                 throw new KeyOutOfRangeException("publicKey", (publicKey == null) ? 0 : publicKey.Length,
                     string.Format("key must be {0} bytes in length.", PublicKeyBytes));
 
-            var hashRound1 = GenericHash.Hash(publicKey, null, 64);
+            var hashRound1 = GenericHash.Hash(ArrayHelpers.ConcatArrays(version, publicKey), null, 64);
             var hashRound2 = GenericHash.Hash(hashRound1, null, 64);
 
             var result = new byte[4];
