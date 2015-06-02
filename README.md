@@ -22,7 +22,7 @@ const string password = "magnetometers payee induce tangibly polonaises unrestri
 var keyPair = KeyGenerator.GenerateCurveLockKeyPair(email, password);
 var encodedPublicKey = KeyGenerator.EncodeCurveLockPublicKey(keyPair.PublicKey);
 ```
-> NMgsvm7ytEHdGEuj9QEaoW7uH2tMQe9Ji2h9viw7kzFkgApVkH
+> MrDDGk7GYEypr93LMgJn4Av3c98fWamRKvAKbjrTEvjtz5kRxj
 
 ### miniLock Format
 Project: [miniLock](https://github.com/kaepora/miniLock)
@@ -64,7 +64,7 @@ const string password = "magnetometers payee induce tangibly polonaises unrestri
 var keyPair = KeyGenerator.GenerateBytejailKeyPair(email, password);
 var encodedPublicKey = KeyGenerator.EncodeBytejailPublicKey(keyPair.PublicKey);
 ```
-> 2PonPHk28TBvBu3iADjXZAH5gPh8fTpQ2mh4eMbkLhPnMoc5Vwq
+> 2PNPvrfYAQxhaGYaAzsWTYgEzymmQZ37jG2vJThBJHDcY4SABnH
 
 ##Helper
 It`s also possible to recognize an identity format

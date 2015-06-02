@@ -14,7 +14,7 @@ namespace Tests
         [Test]
         public void GenerateCurveLockKeyPairTest()
         {
-            const string expected = "NMgsvm7ytEHdGEuj9QEaoW7uH2tMQe9Ji2h9viw7kzFkgApVkH";
+            const string expected = "MrDDGk7GYEypr93LMgJn4Av3c98fWamRKvAKbjrTEvjtz5kRxj";
             const string email = "someone@example.com";
             const string password = "magnetometers payee induce tangibly polonaises unrestricted oilfield";
             Console.WriteLine("--- Generate CurveLock KeyPair start ---");

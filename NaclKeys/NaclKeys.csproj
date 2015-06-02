@@ -44,8 +44,8 @@
       <HintPath>..\packages\SCrypt.2.0.0.2\lib\CryptSharp.SCryptSubset.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sodium, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\libsodium-net.0.8.0\lib\Net40\Sodium.dll</HintPath>
+    <Reference Include="Sodium, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\libsodium-net.0.9.0-beta3\lib\Net40\Sodium.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

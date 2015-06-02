@@ -189,7 +189,7 @@ namespace NaclKeys
 
             var salt = GenericHash.Hash(email, (byte[]) null, 32);
             var seed = PasswordHash.ScryptHashBinary(Encoding.UTF8.GetBytes(password), salt,
-                PasswordHash.Strength.Moderate);
+                PasswordHash.Strength.MediumSlow);
             var key = PublicKeyBox.GenerateKeyPair(seed);
             return key;
         }
@@ -259,7 +259,7 @@ namespace NaclKeys
 
             var salt = GenericHash.Hash(userInputPartOne, (byte[]) null, 32);
             var seed = PasswordHash.ScryptHashBinary(GenericHash.Hash(userInputPartTwo, (byte[]) null, 64), salt,
-                PasswordHash.Strength.Moderate);
+                PasswordHash.Strength.MediumSlow);
             var key = PublicKeyBox.GenerateKeyPair(seed);
             return key;
         }
