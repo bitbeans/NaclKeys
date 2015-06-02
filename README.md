@@ -1,6 +1,10 @@
 # NaclKeys [![Build status](https://img.shields.io/appveyor/ci/bitbeans/NaclKeys.svg?style=flat-square)](https://ci.appveyor.com/project/bitbeans/naclkeys)  [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](https://github.com/bitbeans/NaclKeys/blob/master/LICENSE)
 Small library to generate libsodium-net compatible KeyPair`s and encoded public keys based on predefined formats.
 
+## Installation
+
+There is a [NuGet package](https://www.nuget.org/packages/NaclKeys/) available.
+
 ## Supported Formats
 
 ### CurveLock Format
