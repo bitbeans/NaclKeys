@@ -331,7 +331,7 @@ namespace NaclKeys
                     string.Format("key must be {0} bytes in length.", PublicKeyBytes));
 
             var hashRound1 = GenericHash.Hash(ArrayHelpers.ConcatArrays(version, publicKey), null, 64);
-            var hashRound2 = GenericHash.Hash(hashRound1, null, 64);
+            var hashRound2 = GenericHash.Hash(hashRound1, null, 16);
 
             var result = new byte[4];
             Buffer.BlockCopy(hashRound2, 0, result, 0, result.Length);
