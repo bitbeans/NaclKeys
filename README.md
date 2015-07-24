@@ -1,6 +1,13 @@
 # NaclKeys [![Build status](https://img.shields.io/appveyor/ci/bitbeans/NaclKeys.svg?style=flat-square)](https://ci.appveyor.com/project/bitbeans/naclkeys)  [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](https://github.com/bitbeans/NaclKeys/blob/master/LICENSE)
 Small library to generate libsodium-net compatible KeyPair`s and encoded public keys based on predefined formats.
 
+## Code Status
+
+NaclKeys was subjected to a source code audit carried out by  [Paragon Initiative Enterprises, LLC](https://paragonie.com/).
+
+Final report (Web): [Audit-Report NaclKeys 07.2015](https://paragonie.com/audit/2QB0t20PnxjevVA0)
+Final report (PDF): [Audit-Report NaclKeys 07.2015](https://paragonie.com/static/audit-reports/2015/07/NaclKeys.pdf)
+
 ## Installation
 
 There is a [NuGet package](https://www.nuget.org/packages/NaclKeys/) available.
