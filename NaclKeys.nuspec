@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+    <metadata>
+        <id>NaclKeys</id>
+        <version>0.3.0-beta1</version>
+        <authors>Christian Hermann</authors>
+        <owners>Christian Hermann</owners>
+        <licenseUrl>https://raw.githubusercontent.com/bitbeans/NaclKeys/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/bitbeans/NaclKeys</projectUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>Small library to generate libsodium-net compatible KeyPair`s and encoded public keys based on predefined formats.</description>
+        <summary>Library to generate libsodium-net compatible KeyPair`s</summary>
+        <releaseNotes>0.2.0-beta1
+* New libsodium-net version
+* Depends on helper-net
+0.2.0-beta1
+* Supports CurveLock format
+* Supports miniLock format
+* Supports bytejail format</releaseNotes>
+        <copyright>Copyright (c) 2015 Christian Hermann (bitbeans)</copyright>
+        <language>en-US</language>
+        <tags>libsodium scrypt keypair curvelock minilock bytejail</tags>
+        <dependencies>
+            <dependency id="SCrypt" version="2.0.0.2" />
+            <dependency id="libsodium-net" version="0.9.0-beta5" />
+            <dependency id="helper-net" version="0.1.0" />
+        </dependencies>
+        <references>
+            <group targetFramework=".NETFramework4.5">
+                <reference file="Base58Check.dll" />
+                <reference file="Blake2sCSharp.dll" />
+                <reference file="Zxcvbn.dll" />
+            </group>
+        </references>
+    </metadata>
+    <files>
+        <file src="lib\net45\Base58Check.dll" target="lib\net45\Base58Check.dll" />
+        <file src="lib\net45\Blake2sCSharp.dll" target="lib\net45\Blake2sCSharp.dll" />
+        <file src="NaclKeys\bin\Debug\NaclKeys.dll" target="lib\net45\NaclKeys.dll" />
+        <file src="lib\net45\Zxcvbn.dll" target="lib\net45\Zxcvbn.dll" />
+    </files>
+</package>

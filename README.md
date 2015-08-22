@@ -1,4 +1,4 @@
-# NaclKeys [![Build status](https://img.shields.io/appveyor/ci/bitbeans/NaclKeys.svg?style=flat-square)](https://ci.appveyor.com/project/bitbeans/naclkeys)  [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](https://github.com/bitbeans/NaclKeys/blob/master/LICENSE)
+# NaclKeys [![Build status](https://img.shields.io/appveyor/ci/bitbeans/NaclKeys.svg?style=flat-square)](https://ci.appveyor.com/project/bitbeans/naclkeys) [![Build Status](https://img.shields.io/travis/bitbeans/NaclKeys.svg?style=flat-square)](https://travis-ci.org/bitbeans/NaclKeys) [![NuGet Version](https://img.shields.io/nuget/v/NaclKeys.svg?style=flat-square)](https://www.nuget.org/packages/NaclKeys/) [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](https://github.com/bitbeans/NaclKeys/blob/master/LICENSE.md)
 Small library to generate libsodium-net compatible KeyPair`s and encoded public keys based on predefined formats.
 
 ## Code Status

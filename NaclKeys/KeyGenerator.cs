@@ -4,6 +4,7 @@ using System.Text;
 using Base58Check;
 using Blake2sCSharp;
 using CryptSharp.Utility;
+using Helper;
 using NaclKeys.Exceptions;
 using NaclKeys.Helper;
 using NaclKeys.Models;
@@ -48,7 +49,7 @@ namespace NaclKeys
                         break;
                     case 37:
                         // curvelock or bytejail
-                        if (ArrayHelpers.SubArray(raw, 0, 1).SequenceEqual(new[] { CurveLockVersionPrefix }))
+                        if (ArrayHelper.SubArray(raw, 0, 1).SequenceEqual(new[] { CurveLockVersionPrefix }))
                         {
                             // CurveLock
                             type = validate
@@ -59,7 +60,7 @@ namespace NaclKeys
                         }
                         else
                         {
-                            if (ArrayHelpers.SubArray(raw, 0, 1).SequenceEqual(new[] { BytejailVersionPrefix }))
+                            if (ArrayHelper.SubArray(raw, 0, 1).SequenceEqual(new[] { BytejailVersionPrefix }))
                             {
                                 // bytejail
                                 type = validate
@@ -133,7 +134,7 @@ namespace NaclKeys
                 throw new KeyOutOfRangeException("publicKey", (publicKey == null) ? 0 : publicKey.Length,
                     string.Format("key must be {0} bytes in length.", PublicKeyBytes));
 
-            var final = ArrayHelpers.ConcatArrays(publicKey, Blake2S.ComputeHash(
+            var final = ArrayHelper.ConcatArrays(publicKey, Blake2S.ComputeHash(
                 publicKey, 0, 32,
                 new Blake2sConfig {OutputSizeInBytes = 1}));
             return Base58CheckEncoding.EncodePlain(final);
@@ -152,8 +153,8 @@ namespace NaclKeys
                 throw new ArgumentNullException("encodedPublicKey", "encodedPublicKey cannot be null");
 
             var raw = Base58CheckEncoding.DecodePlain(encodedPublicKey);
-            var publicKey = ArrayHelpers.SubArray(raw, 0, 32);
-            var checksum = ArrayHelpers.SubArray(raw, 32);
+            var publicKey = ArrayHelper.SubArray(raw, 0, 32);
+            var checksum = ArrayHelper.SubArray(raw, 32);
             // validate the checksum
             if (!checksum.SequenceEqual(Blake2S.ComputeHash(
                 publicKey, 0, 32,
@@ -206,7 +207,7 @@ namespace NaclKeys
                 throw new KeyOutOfRangeException("publicKey", (publicKey == null) ? 0 : publicKey.Length,
                     string.Format("key must be {0} bytes in length.", PublicKeyBytes));
 
-            var final = ArrayHelpers.ConcatArrays(new[] { CurveLockVersionPrefix }, publicKey);
+            var final = ArrayHelper.ConcatArrays(new[] { CurveLockVersionPrefix }, publicKey);
             return Base58CheckEncoding.Encode(final);
         }
 
@@ -225,11 +226,11 @@ namespace NaclKeys
             try
             {
                 var raw = Base58CheckEncoding.Decode(encodedPublicKey);
-                var version = ArrayHelpers.SubArray(raw, 0, 1);
+                var version = ArrayHelper.SubArray(raw, 0, 1);
                 if (!version.SequenceEqual(new[] { CurveLockVersionPrefix }))
                     throw new FormatException("invalid version");
 
-                var publicKey = ArrayHelpers.SubArray(raw, 1);
+                var publicKey = ArrayHelper.SubArray(raw, 1);
                 return publicKey;
             }
             catch (FormatException)
@@ -276,7 +277,7 @@ namespace NaclKeys
                 throw new KeyOutOfRangeException("publicKey", (publicKey == null) ? 0 : publicKey.Length,
                     string.Format("key must be {0} bytes in length.", PublicKeyBytes));
 
-            var final = ArrayHelpers.ConcatArrays(new[] { BytejailVersionPrefix }, publicKey, CalculateBytejailChecksum(new[] { BytejailVersionPrefix }, publicKey));
+            var final = ArrayHelper.ConcatArrays(new[] { BytejailVersionPrefix }, publicKey, CalculateBytejailChecksum(new[] { BytejailVersionPrefix }, publicKey));
             return Base58CheckEncoding.EncodePlain(final);
         }
 
@@ -295,13 +296,13 @@ namespace NaclKeys
             try
             {
                 var raw = Base58CheckEncoding.DecodePlain(encodedPublicKey);
-                var version = ArrayHelpers.SubArray(raw, 0, 1);
+                var version = ArrayHelper.SubArray(raw, 0, 1);
                 if (!version.SequenceEqual(new[] { BytejailVersionPrefix }))
                     throw new FormatException("invalid version");
 
-                var publicKey = ArrayHelpers.SubArray(raw, 1, 32);
+                var publicKey = ArrayHelper.SubArray(raw, 1, 32);
                 var checksum = CalculateBytejailChecksum(new[] { BytejailVersionPrefix }, publicKey);
-                var givenChecksum = ArrayHelpers.SubArray(raw, 33);
+                var givenChecksum = ArrayHelper.SubArray(raw, 33);
                 if (!checksum.SequenceEqual(givenChecksum))
                     throw new CorruptIdentityException("the given identity seems to be an invalid bytejail ID");
 
@@ -330,7 +331,7 @@ namespace NaclKeys
                 throw new KeyOutOfRangeException("publicKey", (publicKey == null) ? 0 : publicKey.Length,
                     string.Format("key must be {0} bytes in length.", PublicKeyBytes));
 
-            var hashRound1 = GenericHash.Hash(ArrayHelpers.ConcatArrays(version, publicKey), null, 64);
+            var hashRound1 = GenericHash.Hash(ArrayHelper.ConcatArrays(version, publicKey), null, 64);
             var hashRound2 = GenericHash.Hash(hashRound1, null, 64);
 
             var result = new byte[4];
