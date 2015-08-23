@@ -36,9 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dependencies\Base58Check.dll</HintPath>
     </Reference>
-    <Reference Include="Blake2sCSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\Blake2sCSharp.dll</HintPath>
+    <Reference Include="Blake2s, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\blake2s-net.0.1.0\lib\net\Blake2s.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="CryptSharp.SCryptSubset, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SCrypt.2.0.0.2\lib\CryptSharp.SCryptSubset.dll</HintPath>
@@ -80,7 +80,6 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Dependencies\Base58Check.dll" />
-    <Content Include="Dependencies\Blake2sCSharp.dll" />
     <Content Include="Dependencies\Zxcvbn.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

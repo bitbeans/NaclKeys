@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Text;
 using Base58Check;
-using Blake2sCSharp;
+using Blake2s;
 using CryptSharp.Utility;
 using Helper;
 using NaclKeys.Exceptions;
 using NaclKeys.Helper;
 using NaclKeys.Models;
 using Sodium;
-using Sodium.Exceptions;
+using KeyOutOfRangeException = Sodium.Exceptions.KeyOutOfRangeException;
 
 namespace NaclKeys
 {
@@ -116,7 +116,7 @@ namespace NaclKeys
                         "miniLock needs at least an entropy of {0}, the given password only has an entropy of {1}.",
                         minPasswordEntropy, passwordEntropy));
 
-            var passwordHash = Blake2S.ComputeHash(Encoding.UTF8.GetBytes(password));
+            var passwordHash = Blake2S.Hash(Encoding.UTF8.GetBytes(password), (byte[])null, 32);
             var seed = SCrypt.ComputeDerivedKey(passwordHash, Encoding.UTF8.GetBytes(email), 131072, 8, 1, 1, 32);
             var keyPair = PublicKeyBox.GenerateKeyPair(seed);
             return keyPair;
@@ -126,7 +126,7 @@ namespace NaclKeys
         ///     Encode a publicKey into miniLock format.
         /// </summary>
         /// <param name="publicKey">A 32 byte publicKey.</param>
-        /// <exception cref="KeyOutOfRangeException"></exception>
+        /// <exception cref="Sodium.Exceptions.KeyOutOfRangeException"></exception>
         /// <returns>A Base58 encoded publicKey.</returns>
         public static string EncodeMiniLockPublicKey(byte[] publicKey)
         {
@@ -134,9 +134,8 @@ namespace NaclKeys
                 throw new KeyOutOfRangeException("publicKey", (publicKey == null) ? 0 : publicKey.Length,
                     string.Format("key must be {0} bytes in length.", PublicKeyBytes));
 
-            var final = ArrayHelper.ConcatArrays(publicKey, Blake2S.ComputeHash(
-                publicKey, 0, 32,
-                new Blake2sConfig {OutputSizeInBytes = 1}));
+            var final = ArrayHelper.ConcatArrays(publicKey, Blake2S.Hash(publicKey, (byte[])null, 1));
+
             return Base58CheckEncoding.EncodePlain(final);
         }
 
@@ -156,9 +155,7 @@ namespace NaclKeys
             var publicKey = ArrayHelper.SubArray(raw, 0, 32);
             var checksum = ArrayHelper.SubArray(raw, 32);
             // validate the checksum
-            if (!checksum.SequenceEqual(Blake2S.ComputeHash(
-                publicKey, 0, 32,
-                new Blake2sConfig {OutputSizeInBytes = 1})))
+            if (!checksum.SequenceEqual(Blake2S.Hash(publicKey, (byte[])null, 1)))
                 throw new CorruptIdentityException("the given identity seems to be an invalid miniLock ID");
 
             return publicKey;
