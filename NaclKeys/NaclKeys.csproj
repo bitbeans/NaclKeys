@@ -32,9 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Base58Check, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\Base58Check.dll</HintPath>
+    <Reference Include="Base58Check, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Base58Check.0.2.0\lib\Net40\Base58Check.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Blake2s, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\blake2s-net.0.1.0\lib\net\Blake2s.dll</HintPath>
@@ -44,12 +44,12 @@
       <HintPath>..\packages\SCrypt.2.0.0.2\lib\CryptSharp.SCryptSubset.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Helper, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\helper-net.0.1.0\lib\net45\Helper.dll</HintPath>
+    <Reference Include="Helper, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\helper-net.0.1.2\lib\net45\Helper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Sodium, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\libsodium-net.0.9.0-beta5\lib\Net40\Sodium.dll</HintPath>
+      <HintPath>..\packages\libsodium-net.0.9.0\lib\Net40\Sodium.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -79,7 +79,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Dependencies\Base58Check.dll" />
     <Content Include="Dependencies\Zxcvbn.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
